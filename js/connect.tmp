@@ -1,0 +1,27 @@
+console.log("from connect.js");
+
+//американский код
+function getData(pageName){
+	var obj;
+	var posting = $.post("php/connect.php", {
+		name: pageName
+	});
+	
+	posting.done(function(data){
+		$("#content").html(data);
+		console.dir(data);
+	obj = JSON.parse(data);
+	console.dir(obj);
+	});
+	
+	posting.fail(function(){
+		alert("failed");
+		
+	});
+	return obj;
+}
+
+
+$(document).ready(function(){
+	getData("andrew");
+});
