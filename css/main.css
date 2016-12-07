@@ -6,11 +6,17 @@ height:100px;
 	
 	background: #5D51FF; 
 	/* border: 1px dashed #abab9a; */
-	/* font: 6pt Tahoma; */
+	font-size: 20pt;
 	/* color:#2c2c2c; */
 	
 }
 
 .free{
-background: #74FF70
+background: #74FF70;
+font-size: 20pt;
+}
+
+.headrow{
+background: #1FA713;
+font-size: 15pt;
 }
