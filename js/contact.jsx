@@ -1,4 +1,4 @@
-console.log("from contact.jsx");
+//console.log("from contact.jsx");
 var ContactsList;
 var Contact;
 var Timer;
@@ -7,29 +7,65 @@ var second = 0;
 function makeContact(){
 
 Contact = React.createClass({
+	
+	componentDidMount: function(){
+	var rand = Math.floor((Math.random() * 30000) + 25000);
+	var teaBreakRand = Math.floor((Math.random() * 50000) + 45000);
+	console.log(rand);
+	this.timer = setInterval(this.statusChange, teaBreakRand);
+	this.visitorTimer = setInterval(this.visitorChange, rand);
+	},
+	
+	getInitialState: function() {
+	return {
+      status: this.props.className
+	  }
+		}, 
+	
+	statusChange: function(){
+	if(this.state.status == "free"){
+	this.setState({ status: "teaBreak"});	
+	} else if (this.state.status == "teaBreak"){
+		this.setState({ status: "free"});
+	}
+		},
+	
+	visitorChange: function(){
+	if(this.state.status == "free"){
+	this.setState({ status: "bizy"});	
+	} else {
+		this.setState({ status: "free"});
+	}
+		},
+		
 	render: function(){
 		//console.log(this);
 		return (
-		<tr className={this.props.className}>
+		<tr className={this.state.status}>
 			<td><img id="face" src={this.props.pic} /></td>
 			<td>{this.props.key}</td>
 			<td>{this.props.employee_name}</td>
 			<td>{this.props.designation}</td>
 			<td>{this.props.salary}</td>
-			<td><Timer ocupation={this.props.className} /></td>
+	<td><Timer ocupation={this.state.status} /></td>
 		</tr>
-		
+		/*  */
 		)
 	}
 }); //Contact create
 
-
+//class ContactsList extends React.Component{	
 ContactsList = React.createClass({
+	onMakeOlder: function(){
+		console.log("I am ContactList");
+		
+	}, 
 	
 	render: function(){
 		return (
+		
 		<tbody>
-			<tr className="headrow"><td></td><td></td><td>Сотрудник</td><td>Должность</td><td>Окно №</td><td>Время обслуживания</td></tr>
+				<tr className="headrow"><td></td><td></td><td>Сотрудник</td><td>Должность</td><td>Окно №</td><td>Время обслуживания</td></tr>
 			{
 	
 					ourData.map(function(el){
@@ -39,77 +75,73 @@ ContactsList = React.createClass({
 									designation = {el.designation}
 									salary={el.salary}
 									className = {el.className}
-									seconds = {parseInt(el.seconds)}
+									/* seconds = {parseInt(el.seconds)} */
+									
 					/>;
+					
 				})
 				
 			}
 
 		</tbody>
+		
 		)
 	}
 }); //ContactList create
 
 Timer = React.createClass({
-			 //var freeMessage = "<h4> Свободно </h4>";
-			 //var bizyMessage = <h4> Время обслуживания: {this.state.seconds}</h4>;
-			 getInitialState: function(){
-			return{
-				seconds: 0,
-				timerStart: false
-			};
-		}, 
-		
+			 
 		componentDidMount: function(){
 		//console.log("DidMount working");
+		
 		},
 			componentWillUnmount: function() {
 			clearInterval(this.timer);
 			
 		},
 		
+		getInitialState: function() {
+		
+		return {
+      liked: false,
+	  seconds: 0,
+	  timerStart: false
+    }
+		}, 
+				
 		tick: function(){
 			this.setState({ seconds: this.state.seconds + 1});
 		},
-		
-		srTimer: function(){
-			this.setState({ timerStart: true});
-			
-		},
-		
-		stTimer: function(){
-			this.setState({ timerStart: false});
+				
+		tiktak: function(){
+			if(this.props.ocupation == "bizy" && this.state.seconds == 0){
+				if(this.timer){
+				clearInterval(this.timer);
+				}
+				this.timer = setInterval(this.tick, 1000);
+				} else if (this.props.ocupation == "free" && this.props.timerStart == true){
+				clearInterval(this.timer);
+			}
 		},
 		
 		render: function(){
-		var bizyMessage = <h4> 0 минут {this.state.seconds} секунд</h4>;	
-		var freeMessage = <h4> Свободно </h4>;
+		
+		var bizyMessage = <h3> 0 минут {this.state.seconds} секунд </h3>;	
+		var freeMessage = <p> Свободно </p>;
+		var breakMessage = <p> Перерыв </p>;
 		var outMessage = freeMessage;
+		this.tiktak(); //Запускает секундомер
 		
-		if(this.props.ocupation == "bizy" && this.state.timerStart == false){
-			//	console.log("Start timer");
-				this.srTimer();
-				this.timer = setInterval(this.tick, 1000);
-				
-				
-			} else if (this.props.ocupation == "free" && this.state.timerStart == true){
-			//	console.log("Stop timer");
-				clearInterval(this.timer);
-				this.setState({ seconds: 0});
-				this.stTimer();
-				outMessage = freeMessage;
-			}
-			//console.log(this.props.ocupation);
 			if(this.props.ocupation == "bizy"){
-			return bizyMessage;} else {
+			return bizyMessage;
+			
+			} else if(this.props.ocupation == "free") {
+				this.state.seconds = 0;
 				return freeMessage;
-			}
+			} else return breakMessage;
 		}
-		
-			
-			
-		
-	});
+
+	}); 
 
 
 } //MakeContact close

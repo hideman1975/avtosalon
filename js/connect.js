@@ -1,4 +1,4 @@
-console.log("from connect.js");
+//console.log("from connect.js");
 var ourData=[];
 var name = "Вася";
 
