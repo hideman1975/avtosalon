@@ -1,5 +1,18 @@
-#face{
+ #free {
 height:100px;
+} 
+
+#bizy {
+height:100px;
+} 
+
+#teaBreak{
+height:100px;
+} 
+
+.otdel{
+background: #82FFFF;
+font-size: 15pt;
 }
 
 .bizy { 
@@ -17,7 +30,7 @@ font-size: 20pt;
 }
 
 .headrow{
-background: #1FA713;
+background: #4CC64C;
 font-size: 15pt;
 }
 

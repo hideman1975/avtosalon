@@ -11,9 +11,12 @@ Contact = React.createClass({
 	componentDidMount: function(){
 	var rand = Math.floor((Math.random() * 30000) + 25000);
 	var teaBreakRand = Math.floor((Math.random() * 50000) + 45000);
-	console.log(rand);
-	this.timer = setInterval(this.statusChange, teaBreakRand);
-	this.visitorTimer = setInterval(this.visitorChange, rand);
+	//console.log(rand);
+	if (this.props.className !== "otdel"){
+		//console.log("Забежал в пуск таймеров");
+			this.timer = setInterval(this.statusChange, teaBreakRand);
+			this.visitorTimer = setInterval(this.visitorChange, rand);	
+		}
 	},
 	
 	getInitialState: function() {
@@ -42,7 +45,7 @@ Contact = React.createClass({
 		//console.log(this);
 		return (
 		<tr className={this.state.status}>
-			<td><img id="face" src={this.props.pic} /></td>
+			<td><img id={this.state.status} src={this.props.pic} /></td>
 			<td>{this.props.key}</td>
 			<td>{this.props.employee_name}</td>
 			<td>{this.props.designation}</td>
@@ -129,17 +132,21 @@ Timer = React.createClass({
 		var bizyMessage = <h3> 0 минут {this.state.seconds} секунд </h3>;	
 		var freeMessage = <p> Свободно </p>;
 		var breakMessage = <p> Перерыв </p>;
-		var outMessage = freeMessage;
-		this.tiktak(); //Запускает секундомер
+		//var outMessage = freeMessage;
+		var nullMessage = <p></p>;
 		
+		this.tiktak(); //Запускает секундомер
+	
 			if(this.props.ocupation == "bizy"){
 			return bizyMessage;
 			
 			} else if(this.props.ocupation == "free") {
 				this.state.seconds = 0;
 				return freeMessage;
-			} else return breakMessage;
-		}
+			} else if(this.props.ocupation == "teaBreak") {
+				return breakMessage;
+				} else return nullMessage;
+		} //render close
 
 	}); 
 
