@@ -28,6 +28,7 @@ class Service extends React.Component{
 					ourCar.map(function(el){
 					return <Car		
 									key={el.id}
+									state={el.state}
 									master={el.master}
 									status={el.status}
 									car_marka={el.car_marka}
@@ -54,6 +55,7 @@ class Car extends React.Component{
 		super();
 		this.state = {
 			status: "free"
+			
 		}
 		
 	}
@@ -72,7 +74,7 @@ class Car extends React.Component{
 	
 	render(){
 		return (	
-	<tr className={this.state.status}>
+	<tr className={this.props.state}>
 			<td>{this.props.time.substr(11, 5)}</td>
 			<td>{this.props.car_marka}</td>
 			<td>{this.props.car_vin}</td>

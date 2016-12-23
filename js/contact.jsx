@@ -9,8 +9,8 @@ function makeContact(){
 Contact = React.createClass({
 	
 	componentDidMount: function(){
-	var rand = Math.floor((Math.random() * 30000) + 25000);
-	var teaBreakRand = Math.floor((Math.random() * 50000) + 45000);
+	var rand = Math.floor((Math.random() * 130000) + 125000);
+	var teaBreakRand = Math.floor((Math.random() * 150000) + 115000);
 	//console.log(rand);
 	if (this.props.className !== "otdel"){
 		//console.log("Забежал в пуск таймеров");
@@ -128,8 +128,14 @@ Timer = React.createClass({
 		},
 		
 		render: function(){
-		
-		var bizyMessage = <h3> 0 минут {this.state.seconds} секунд </h3>;	
+		var seconds = this.state.seconds;
+		var minute = 0;
+		if (this.state.seconds > 59){
+		seconds = this.state.seconds % 60;
+		minute = (this.state.seconds - seconds) /60;
+		//console.log("minute " + minute + " seconds" + seconds);
+		}
+		var bizyMessage = <h3> {minute} минут {seconds} секунд </h3>;	
 		var freeMessage = <p> Свободно </p>;
 		var breakMessage = <p> Перерыв </p>;
 		//var outMessage = freeMessage;

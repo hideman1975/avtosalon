@@ -1,4 +1,4 @@
-//console.log("from connect.js");
+console.log("from connect.js");
 var ourData=[];
 var ourCar=[];
 
@@ -52,4 +52,25 @@ function makeOtdel(){
 	ourData.splice(-6, 0, service);
 	ourData.splice(-2, 0, komplekt);
 	
+}
+
+//для выгрузки температуры
+var get = function(url){
+	var getter = new XMLHttpRequest();
+	parser = new DOMParser();
+	getter.open('GET', url, true);
+	getter.onreadystatechange = function(){
+		if (getter.readyState == 4){
+			var xmlDoc = parser.parseFromString(getter.responseText, "text/html");
+			//var jq = $('title', xmlDoc);
+			//console.log(jq[0].innerHTML);
+			//$("#port").text(jq[0].innerHTML);
+			$('div.today-panel__temperature');
+			var tempr = $('div.today-panel__temperature', xmlDoc);
+			//console.log(tempr[0].outerText);
+			$("#tempereture").text(tempr[0].outerText);
+			
+		}
+	};
+	getter.send();
 }
